@@ -10,7 +10,7 @@ MODEL = "gpt-4o"
 load_dotenv()
 
 # Retrieve the API key from the environment variables
-api_key = keys.open_ai_key#os.getenv("OPENAI_API_KEY")
+api_key = os.getenv("OPENAI_API_KEY")
 if not api_key:
     raise ValueError("Missing OPENAI_API_KEY in environment variables")
 
@@ -30,27 +30,33 @@ def construct_messages(system_text):
     ]
     return messages
 
-def run_text_prompt_with_history(msgs, client=client):
-    #msgs.append({"role": "user", "content": [
-    #        {"type": "text", "text": input_text},
-    #    ]})
+def run_text_prompt_with_history(msgs, input_text, client=client):
+    msgs.append({"role": "user", "content": [
+            {"type": "text", "text": input_text},
+        ]})
     response = client.chat.completions.create(
         model = MODEL,
         messages = msgs,
         temperature=0.0,
     )
-    #msgs.append({"role": "assistant", "content": [
-    #        {"type": "text", "text": response.choices[0].message.content},
-    #    ]})
+    msgs.append({"role": "assistant", "content": [
+            {"type": "text", "text": response.choices[0].message.content},
+        ]})
     return response.choices[0].message.content
 
-default_msgs = construct_messages("You are a helpful AI assistant who provides travel research and reccomendations")
+def run_text_prompt(msgs, client=client):
+
+    response = client.chat.completions.create(
+        model = MODEL,
+        messages = msgs,
+        temperature=0.0,
+    )
+    return response.choices[0].message.content
 
 
-
-def get_gpt_response(message):
+def get_gpt_response(message, client):
     try:
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model="gpt-4o",
             messages=[
                 {"role": "system", "content": "You are a helpful assistant for booking travel trips."},

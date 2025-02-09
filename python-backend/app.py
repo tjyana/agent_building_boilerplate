@@ -17,17 +17,42 @@ message_history = utils.construct_messages("You are a helpful AI assistant who p
 def home():
     return "Server is running"
 
+
+
+## This is the original code
+# @app.route('/get_response', methods=['POST'])
+# def get_response():
+#     data = request.get_json()
+#     messages = data['messages']
+#     print("Incoming messages", messages)
+#     time.sleep(2)
+#     response = utils.run_text_prompt_with_history(messages)
+#     print(response)
+#     return jsonify({
+#         "role": "assistant",
+#         "content": response
+#     })
+
+# This is the updated code
 @app.route('/get_response', methods=['POST'])
 def get_response():
     data = request.get_json()
     messages = data['messages']
     print("Incoming messages", messages)
     time.sleep(2)
-    response = utils.run_text_prompt_with_history(messages)
-    print(response)
+
+    # Assuming the user's new message is the last one in the list:
+    if messages and "content" in messages[-1]:
+        user_input = messages[-1]["content"]
+    else:
+        return jsonify({"error": "No user input provided"}), 400
+
+    # Now pass both the message history and the new input text
+    response_text = utils.run_text_prompt_with_history(messages, user_input)
+    print(response_text)
     return jsonify({
         "role": "assistant",
-        "content": response
+        "content": response_text
     })
 
 

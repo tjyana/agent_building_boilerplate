@@ -39,9 +39,9 @@ def run_text_prompt_with_history(msgs, input_text, client=client):
         messages = msgs,
         temperature=0.0,
     )
-    msgs.append({"role": "assistant", "content": [
-            {"type": "text", "text": response.choices[0].message.content},
-        ]})
+    # msgs.append({"role": "assistant", "content": [
+    #         {"type": "text", "text": response.choices[0].message.content},
+    #     ]})
     return response.choices[0].message.content
 
 def run_text_prompt(msgs, client=client):
@@ -59,7 +59,10 @@ def get_gpt_response(message, client):
         response = client.chat.completions.create(
             model="gpt-4o",
             messages=[
-                {"role": "system", "content": "You are a helpful assistant for booking travel trips."},
+                {"role": "system", "content": """
+
+
+                 """},
                 {"role": "user", "content": message}
             ],
             temperature=0.7,  # Optional: Adjusts randomness of the output

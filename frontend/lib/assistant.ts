@@ -35,7 +35,7 @@ export const handleTurn = async () => {
     },
     ...conversationItems
   ]
-
+console.log('allConversationItems jsakjjdjnkj', allConversationItems)
   try {
     // To use the python backend, replace by
     //const response = await fetch('http://localhost:8000/get_response', {

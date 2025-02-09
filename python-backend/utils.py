@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 import openai
 from openai import OpenAI
-import keys
+# import keys
 
 MODEL = "gpt-4o"
 
@@ -72,4 +72,3 @@ def get_gpt_response(message, client):
 
     except Exception as e:
         print("Error calling OpenAI API:", e)
-

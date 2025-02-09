@@ -4,7 +4,7 @@ import time
 from flask_cors import CORS
 load_dotenv()
 import utils
-import keys
+# import keys
 
 app = Flask(__name__)
 CORS(app)
@@ -32,7 +32,7 @@ def get_response():
 
 
 # Replace with your actual SerpAPI key
-SERP_API_KEY = keys.serp_api_key
+# SERP_API_KEY = keys.serp_api_key
 
 @app.route('/search', methods=['GET'])
 def search():
